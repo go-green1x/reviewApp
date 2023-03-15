@@ -27,7 +27,14 @@ class LoginView(KnoxLoginView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        return super(LoginView, self).post(request, format=None)
+        userDetail = {
+            'username' : request.user.username,
+            'first_name' : request.user.first_name,
+            'last_name' : request.user.last_name
+        }
+        response = super(LoginView, self).post(request, format=None)
+        response.data['userDetails'] = userDetail
+        return response
 
 class UserIsAuthenticated(APIView):
 
