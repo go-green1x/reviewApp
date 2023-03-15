@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import UserSerializer, ChangePasswordSerializer
+from .serializers import UserSerializer, ChangePasswordSerializer, ProfileSerializer
 # Create your views here.
 
 class UserCreateView(generics.CreateAPIView):
@@ -64,3 +64,16 @@ class ChangePassword(APIView):
         update_session_auth_hash(request, user)
 
         return Response({'message': 'Password updated successfully.'}, status=status.HTTP_200_OK)
+
+class ProfileUpdateView(APIView):
+    serializer_class = ProfileSerializer
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request, *args, **kwargs):
+        user_profile = request.user.profile
+        serializer = self.serializer_class(user_profile, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
