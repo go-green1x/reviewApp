@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import UserSerializer, ChangePasswordSerializer, ProfileSerializer
+from .serializers import UserSerializer, ChangePasswordSerializer, ModelProfileSerializer, UserDetails
 # Create your views here.
 
 class UserCreateView(generics.CreateAPIView):
@@ -30,7 +30,9 @@ class LoginView(KnoxLoginView):
         userDetail = {
             'username' : request.user.username,
             'first_name' : request.user.first_name,
-            'last_name' : request.user.last_name
+            'last_name' : request.user.last_name,
+            'email' : request.user.email,
+            'profile' : ModelProfileSerializer(Profile.objects.get(user=request.user)).data
         }
         response = super(LoginView, self).post(request, format=None)
         response.data['userDetails'] = userDetail
@@ -73,7 +75,7 @@ class ChangePassword(APIView):
         return Response({'message': 'Password updated successfully.'}, status=status.HTTP_200_OK)
 
 class ProfileUpdateView(APIView):
-    serializer_class = ProfileSerializer
+    serializer_class = UserDetails
     authentication_classes = (TokenAuthentication, )
     permission_classes = (IsAuthenticated,)
 
