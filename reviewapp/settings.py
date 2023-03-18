@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'userAuth',
     'debug_toolbar',
+    'productAndReviews',
 
 ]
 
