@@ -7,7 +7,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     manufacturer = models.CharField(max_length=100)
     average_cost = models.IntegerField()
-    cateory = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
     release_date = models.DateField()
     description = models.CharField(max_length=500)
     upload = models.ImageField(upload_to ='uploads/product/', blank = True, null=True)
@@ -16,8 +16,11 @@ class Product(models.Model):
     	return '{}-{}'.format(self.name, self.manufacturer)   
     
 class Review(models.Model):
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField()
-    Review = models.CharField(max_length=200)
+    review = models.CharField(max_length=200)
     date_posted = models.DateField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    
+    def __str__(self):
+    	return '{}-{}'.format(self.author, self.product)  
