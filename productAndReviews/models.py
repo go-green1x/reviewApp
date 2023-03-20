@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -9,7 +10,7 @@ class Product(models.Model):
     average_cost = models.IntegerField()
     category = models.CharField(max_length=100)
     release_date = models.DateField()
-    description = models.CharField(max_length=500)
+    description = models.TextField(max_length=1000)
     upload = models.ImageField(upload_to ='uploads/product/', blank = True, null=True)
     
     def __str__(self):
@@ -18,8 +19,8 @@ class Product(models.Model):
 class Review(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField()
-    review = models.CharField(max_length=200)
-    date_posted = models.DateField()
+    review = models.TextField(max_length=400)
+    date_posted = models.DateTimeField(default=now)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     
     def __str__(self):
