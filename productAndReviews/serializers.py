@@ -65,3 +65,9 @@ class ProductListSerializer(serializers.ModelSerializer):
     def get_reviews(self, obj):
         reviews = obj.review_set.all()[:3]
         return ReviewSerializer(reviews, many=True).data
+    
+class ConatactMailSerializer(serializers.Serializer):
+    subject = serializers.CharField(required=True)
+    message = serializers.CharField(required=True)
+    fullname = serializers.CharField(required=False)
+    email = serializers.CharField(required=False)

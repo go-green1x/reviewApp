@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'userAuth',
     'debug_toolbar',
     'productAndReviews',
+    'django.core.mail',
 
 ]
 
@@ -164,3 +165,8 @@ INTERNAL_IPS = [
     "*",
     "127.0.0.1",
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.tutanota.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
