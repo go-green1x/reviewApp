@@ -25,11 +25,3 @@ class Review(models.Model):
     
     def __str__(self):
     	return '{}-{}'.format(self.author, self.product)
- 
-class Info(models.Model):
-    attribute = models.CharField(max_length=50)
-    value = models.CharField(max_length=50, null=True, blank=True)
-    status = models.BooleanField()
-    
-    def __str__(self):
-    	return '{}-{}'.format(self.attribute, self.value)

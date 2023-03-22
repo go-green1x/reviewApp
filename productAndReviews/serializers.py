@@ -27,9 +27,13 @@ class ReviewSerializer(serializers.ModelSerializer):
         return review
     
     def update(self, instance, validated_data):
+        if instance.author != self.context['request'].user:
+            raise serializers.ValidationError({
+                'review': 'You donot have permission to update this review',
+                })
         instance.rating = validated_data.get('rating', instance.rating)
         instance.review = validated_data.get('review', instance.review)
-        instance.product = validated_data.get('product', instance.product)
+        # instance.product = validated_data.get('product', instance.product)
         instance.save()
         return instance
 

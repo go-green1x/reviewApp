@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from rest_framework import viewsets
-from .models import Product, Review, Info
+from .models import Product, Review
 from .serializers import ProductSerializer, ReviewSerializer, ProductListSerializer, ConatactMailSerializer
 from rest_framework.permissions import IsAuthenticated
 from knox.auth import TokenAuthentication
