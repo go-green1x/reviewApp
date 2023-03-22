@@ -40,7 +40,7 @@ class UserDetails(serializers.ModelSerializer):
         user = instance.user
         user.email = validated_data.get('email', user.email)
         user.first_name = validated_data.get('first_name', user.first_name)
-        user.last_name = validated_data.get('last_name', user.last_name)
+        user.last_name = validated_data.get('last_name', '')
         user.save()
 
         instance = super().update(instance, validated_data)

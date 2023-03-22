@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 class ProductViewSet(viewsets.ModelViewSet):
@@ -39,12 +40,10 @@ class ConatactMailViewSet(APIView):
         subject = serializer.validated_data['subject']
         message = serializer.validated_data['message']
         user = request.user
-        email_from = Info.objects.filter(attribute='email', status=1)[0].value
-        email_from_password = Info.objects.filter(attribute='emailpassword', status=1)[0].value
-
-        recipient_list=[email_from,]
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list=[email_from, user.email,]
         try:
-            send_mail(subject, message, user.email, recipient_list, fail_silently=False, auth_user=email_from, auth_password=email_from_password)
+            send_mail(subject, message, email_from, recipient_list, fail_silently=False)
         except:
             pass
         return Response(True, status=status.HTTP_200_OK)
